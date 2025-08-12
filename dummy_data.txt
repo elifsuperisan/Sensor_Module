@@ -1,0 +1,126 @@
+{
+    "modules": [
+        {
+            "module_id": "M1001",
+            "name": "module1",
+            "connectedSensor": null
+        },
+        {
+            "module_id": "M1002",
+            "name": "module2",
+            "connectedSensor": null
+        },
+        {
+            "module_id": "M1003",
+            "name": "module3",
+            "connectedSensor": null
+        },
+        {
+            "module_id": "M1004",
+            "name": "module4",
+            "connectedSensor": null
+        },
+        {
+            "module_id": "M1005",
+            "name": "module5",
+            "connectedSensor": null
+        },
+        {
+            "module_id": "M1006",
+            "name": "module6",
+            "connectedSensor": null
+        },
+        {
+            "module_id": "M1007",
+            "name": "module7",
+            "connectedSensor": null
+        },
+        {
+            "module_id": "M1008",
+            "name": "module8",
+            "connectedSensor": null
+        },
+        {
+            "module_id": "M1009",
+            "name": "module9",
+            "connectedSensor": null
+        },
+        {
+            "module_id": "M1010",
+            "name": "module10",
+            "connectedSensor": null
+        },
+        {
+            "module_id": "M1011",
+            "name": "module11",
+            "connectedSensor": null
+        },
+        {
+            "module_id": "M1012",
+            "name": "module12",
+            "connectedSensor": null
+        }
+    ],
+    "sensors": [
+        {
+            "sensor_id": "S2001",
+            "name": "sensor1",
+            "label": "module12"
+        },
+        {
+            "sensor_id": "S2002",
+            "name": "sensor2",
+            "label": ""
+        },
+        {
+            "sensor_id": "S2003",
+            "name": "sensor3",
+            "label": ""
+        },
+        {
+            "sensor_id": "S2004",
+            "name": "sensor4",
+            "label": ""
+        },
+        {
+            "sensor_id": "S2005",
+            "name": "sensor5",
+            "label": ""
+        },
+        {
+            "sensor_id": "S2006",
+            "name": "sensor6",
+            "label": ""
+        },
+        {
+            "sensor_id": "S2007",
+            "name": "sensor7",
+            "label": ""
+        },
+        {
+            "sensor_id": "S2008",
+            "name": "sensor8",
+            "label": ""
+        },
+        {
+            "sensor_id": "S2009",
+            "name": "sensor9",
+            "label": ""
+        },
+        {
+            "sensor_id": "S2010",
+            "name": "sensor10",
+            "label": ""
+        },
+        {
+            "sensor_id": "S2011",
+            "name": "sensor11",
+            "label": ""
+        },
+        {
+            "sensor_id": "S2012",
+            "name": "sensor12",
+            "label": ""
+        }
+    ]
+}
