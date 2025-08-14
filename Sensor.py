@@ -59,6 +59,10 @@ class Sensor:
         self.create_telemetry()
 
     def create_telemetry(self):
+        if not self.sensor_id:
+            logger.error(ErrorMessages.SENSOR_ID_EMPTY.value)
+            raise Exception(ErrorMessages.SENSOR_ID_EMPTY.value)
+
         timestamp = datetime.now().isoformat()
         self.latestTelemetry = {
             "timestamp": timestamp,
@@ -76,13 +80,13 @@ class Sensor:
         }
 
         try:
-            # Dosya yoksa veya boşsa sıfırdan başla
+            #dosya yoksa veya boşsa
             with open("telemetry_log.txt", "r", encoding="utf-8") as file:
                 existing_data = json.load(file)
         except (FileNotFoundError, json.JSONDecodeError):
             existing_data = []
 
-        # Eğer aynı sensor_id varsa, ona yeni telemetry ekle
+        # aynı sensor_id varsa ona bir daha yeni telemetry ekle
         for sensor in existing_data:
             if sensor["sensor_id"] == self.sensor_id:
                 sensor["telemetry"].append(self.latestTelemetry)
@@ -131,4 +135,92 @@ class Sensor:
         packet = DataPacket(self.sensor_id, self.latestTelemetry)
         if gateway:
             gateway.onMqqtMessage(topic, packet)
+
+    def create_module(self):
+
+        # base_path = os.path.dirname(os.path.abspath(__file__))
+        # file_path = os.path.join(base_path, "dummy_data.txt")
+
+        rand_sid = "S" + str(random.randint(0, 999999999)).zfill(9)
+        # chat: rand_mid = "M" + " ".join(random.choice(string.ascii_uppercase + string.digits, k=7))
+
+        while True:
+            with open("dummy_data.txt", 'r', encoding="utf-8") as json_file:
+                data = json.load(json_file)
+
+            sensors = data.get("sensors", [])
+
+            existing_ids = {m.get("sensor_id") for s in sensors if s.get("sensor_id")}
+
+            if rand_sid in existing_ids:
+                rand_sid = "S" + str(random.randint(0, 999999999)).zfill(9)
+                continue
+            else:
+                break
+
+        try:
+            with open("dummy_data.txt", 'r', encoding="utf-8") as json_file:
+                data = json.load(json_file)
+
+        except FileNotFoundError:
+            logger.error("Dummy_data.txt bulunamadı.")
+            return
+        except json.JSONDecodeError:
+            logger.error("dummy_data.txt JSON formatı bozuk.")
+            return
+
+        # yeni kayıt for new ids
+        new_sensors = {
+            "sensor_id": rand_sid,
+            "name": "Sensor" + rand_sid[-2:],
+            "label": None
+        }
+
+        sensors.append(new_module)
+
+        data["sensors"] = sensors  # yeniden eski modulelerin arasına ekledik
+
+        try:
+            with open("dummy_data.txt", 'w', encoding="utf-8") as json_file:
+                json.dump(data, json_file, indent=4, ensure_ascii=False)
+        except FileNotFoundError:
+            logger.error("dummy_data.txt bulunamadı.");
+            return
+        except Exception as e:
+            logger.error(f"Yazım hatası: {e}")
+            return
+
+        # yeniden dosyayı açıp dosyaya yazıldı mı diye kontrol et
+        try:
+            with open("dummy_data.txt", 'r', encoding="utf-8") as json_file:
+                check_data = json.load(json_file)
+
+                check_sensors = check_data.get("sensors", [])
+
+                ok = any(m.get("sensor_id") == rand_sid for s in check_sensors)
+                if ok:
+                    logger.info("Doğrulama başarılı: sensor dosyaya eklendi.")
+                    return {"message": "Sensor eklendi", "sensor_id": rand_sid}
+                else:
+                    logger.warning("Doğrulama başarısız: sensor dosyada bulunamadı.")
+                    return
+
+        except Exception as e:
+            logger.error(f"Yazım hatası: {e}")
+            return
+
+    def main(self):
+        module_id = input("Module ID girin: ").strip().upper()
+        sensor_id = input("Sensor ID girin: ").strip().upper()
+
+        if not module_id:
+            logger.error(ErrorMessages.MODULE_ID_EMPTY.value)
+            return
+
+        if not sensor_id:
+            logger.error(ErrorMessages.SENSOR_ID_EMPTY.value)
+            return
+
+        self.connected_device(module_id, sensor_id)
+
 
